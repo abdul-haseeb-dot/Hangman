@@ -1,5 +1,63 @@
 import random
-
+stage_0="""        --------
+                   |      |
+                   |   
+                   |   
+                   |    
+                   |      
+                   |
+                =======    """
+stage_1= """       --------
+                   |      |
+                   |      O
+                   |     
+                   |     
+                   |     
+                   |
+                ======="""
+stage_2 ="""       --------
+                   |      |
+                   |      O
+                   |      |
+                   |      |
+                   |     
+                   |
+                ======="""
+stage_3 ="""       --------
+                   |      |
+                   |      O
+                   |     \|
+                   |      |
+                   |    
+                   |
+                ======="""
+stage_4="""        --------
+                   |      |
+                   |      O
+                   |     \|/
+                   |      |
+                   |     
+                   |
+                ======="""
+stage_5="""        --------
+                   |      |
+                   |      O
+                   |     \|/
+                   |      |
+                   |     /  
+                   |
+                =======       """
+stage_6= """       --------
+                   |      |
+                   |      O
+                   |     \|/
+                   |      |
+                   |     / \ 
+                   |
+                ======= """
+stages=[stage_0,stage_1,stage_2,stage_3,stage_4,stage_5,stage_6]
+art =stages[0]
+i=0
 def for_word():
     fruits=["apple","banana","mango","orange","grape","kiwi","grapefruit","peach","date","blueberry","apricot","blackberry","pineapple","lychee","pear"]
     element=random.choice(fruits)
@@ -32,8 +90,12 @@ while attempts>0 and word_letters: #loops works while we have attempts left and 
         else:
             guessed_letters.add(guess)
             attempts-=1
+            i+=1
+            art=stages[i]
             print(f"Wrong guess! '{guess}' is not in the word") #in case of wrong letter
             print(f"Attempts left: {attempts}")
+        print(art)
+        
     
 if not word_letters: #means word_letters is empty (all letters has been guessed)
     print(f"Congragulations! You have guessed the word {word}")
