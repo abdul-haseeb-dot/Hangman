@@ -62,7 +62,7 @@ def hangman():
 
     while True:
         clear_screen()  # Clear the screen at the start of every round
-        print(YELLOW + "\t\t☺ WELCOME TO HANGMAN ☺" + RESET)
+        print(YELLOW + "\t\t☺ WELCOME TO HANGMAN ☺\n\n" + RESET)
         attempts = 3
         i = 0
         word = for_word()  # we get the word to be guessed
