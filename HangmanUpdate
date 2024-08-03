@@ -1,0 +1,118 @@
+import random
+import os
+
+# Using ANSI codes for colors
+YELLOW = '\033[33m'
+RED = '\033[31m'
+RESET = '\033[0m'
+
+def clear_screen():
+    # Clear screen command based on OS
+    os.system('cls' if os.name == 'nt' else 'clear')
+
+def hangman():
+
+    stages = [
+        """
+                   --------
+                   |      |
+                   |   
+                   |   
+                   |    
+                   |      
+                   |
+                =======    """,
+        """       
+                   --------
+                   |      |
+                   |      O
+                   |      |
+                   |      |
+                   |     
+                   |
+                =======""",
+        """
+                   --------
+                   |      |
+                   |      O
+                   |     \\|/
+                   |      |
+                   |     
+                   |
+                =======""",
+        """
+                   --------
+                   |      |
+                   |      O
+                   |     \\|/
+                   |      |
+                   |     / \\
+                   |
+                ======= """
+    ]
+
+    def for_word():
+        fruits = [
+            "apple", "banana", "mango", "orange", "grape", "kiwi",
+            "grapefruit", "peach", "date", "blueberry", "apricot",
+            "blackberry", "pineapple", "lychee", "pear"
+        ]
+        element = random.choice(fruits)
+        return element  # extracting a random element from the list
+
+    while True:
+        clear_screen()  # Clear the screen at the start of every round
+        print(YELLOW + "\t\t☺ WELCOME TO HANGMAN ☺" + RESET)
+        attempts = 3
+        i = 0
+        word = for_word()  # we get the word to be guessed
+        word_letters = set(word)  # the letters in the word
+        guessed_letters = set()  # the letters guessed by players
+
+        while attempts > 0 and word_letters:  # loop works while we have attempts left and there are letters to guess
+            display = [letter if letter in guessed_letters else "___" for letter in word]
+            print("Current Word: ", " ".join(display))  # displays the word with blanks and guessed letters
+
+            guess = input("Guess a Letter: ").lower()  # inputs guesses
+
+            if len(guess) != 1:  # if more than one letter is input
+                print("Please enter a single letter! Try again")
+            elif not guess.isalpha():  # if something except a letter is input
+                print("Please enter a letter! Try again")
+            else:
+                if guess in guessed_letters:
+                    print(f"You have already guessed '{guess}'! Try something else")  # in case a letter is repeated
+                elif guess in word_letters:
+                    guessed_letters.add(guess)
+                    word_letters.remove(guess)
+                    print(f"Good guess! '{guess}' is in the word")  # in case of correct letter
+                else:
+                    guessed_letters.add(guess)
+                    attempts -= 1
+                    i += 1
+                    print(f"Wrong guess! '{guess}' is not in the word")  # in case of wrong letter
+                    print(f"Attempts left: {attempts}")
+
+                print(YELLOW + stages[i] + RESET)
+
+        if not word_letters:  # means word_letters is empty (all letters have been guessed)
+            print(f"Congratulations! You have guessed the word")
+            print("Guessed word: ", " ".join(word))
+        else:
+            print(f"You are out of attempts!")
+            print("Correct word was: ", " ".join(word))
+
+        # Prompt for another round with validation
+        while True:
+            play_again = input("Do you want to play another round? (yes/no): ").lower()
+            if play_again in ['yes', 'no']:
+                break
+            else:
+                print("Invalid input! Please enter 'yes' or 'no'.")
+
+        if play_again == 'no':
+            break
+
+    print("Thank you for playing Hangman! Good bye")
+
+hangman()
