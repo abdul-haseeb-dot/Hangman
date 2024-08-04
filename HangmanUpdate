@@ -11,6 +11,10 @@ def clear_screen():
     os.system('cls' if os.name == 'nt' else 'clear')
 
 def hangman():
+    # Initialize score variables
+    wins = 0
+    losses = 0
+    
     while True:
         clear_screen()  # Clear the screen at the start of every round
         print(YELLOW + "\t   ☺ WELCOME TO HANGMAN ☺\n" + RESET)
@@ -19,7 +23,7 @@ def hangman():
         while choose != "category" and choose != "random":  # Ensure valid input
             choose = input("Invalid Input! Write 'category' or 'random': ").lower()
 
-        numbers = [1, 2, 3, 4, 5, 6, 7] 
+        numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9] 
 
         if choose == "category":  # If they want to select a category themselves
             print("""1: Fruits
@@ -28,12 +32,14 @@ def hangman():
 4: Movies
 5: Animals
 6: Space
-7: Musical Instruments""")
-            category=int(input("Enter number of category you'd like to play: "))
+7: Musical Instruments
+8: Sports
+9: Languages of the World""")
+            category = int(input("Enter number of category you'd like to play: "))
         else:
-            category = random.choice(numbers)  #if they want to play randomly
+            category = random.choice(numbers)  # If they want to play randomly
 
-        while category < 1 or category > 7:
+        while category < 1 or category > 9:
             print("Invalid category!")
             category = int(input("Enter number of category you'd like to play: "))
 
@@ -90,14 +96,16 @@ def hangman():
                     "galaxy", "milky way", "telescope"]
             instruments = ["guitar", "piano", "mandolin", "violin", "saxophone", "flute", "accordion", "cello", "ukulele",
                         "trumpet", "sitar", "drum", "harp", "harmonica"]
-            themes = [fruits, countries, cities, movies, animals, space, instruments]
+            sports = ["soccer", "basketball", "tennis", "baseball", "golf", "running", "volleyball", "badminton", "swimming", "boxing", "rugby", "cricket", "hockey", "table tennis", "cycling", "skiing", "snowboarding", "martial arts", "gymnastics", "archery"]
+            languages = ["english", "spanish", "mandarin chinese", "hindi", "arabic", "french", "russian", "portuguese", "bengali", "japanese", "german", "korean", "italian", "turkish", "dutch", "vietnamese", "polish", "thai", "swahili", "greek", "swedish", "finnish", "norwegian", "danish", "czech", "hungarian", "romanian", "ukrainian", "malay", "indonesian", "filipino", "kurdish", "farsi", "hausa", "amharic", "haitian creole", "slovak", "lithuanian", "latvian", "estonian"]
+            themes = [fruits, countries, cities, movies, animals, space, instruments, sports, languages]
             playing_theme = themes[cat-1]
             element = random.choice(playing_theme)
             return element  # extracting a random element from the list
 
         attempts = 3
         i = 0
-        names = ["fruits", "countries", "Cities of Pakistan", "movies", "animals", "space", "musical instruments"]
+        names = ["Fruits", "Countries", "Cities of Pakistan", "Movies", "Animals", "Space", "Musical Instruments", "Sports", "Languages of the World"]
         theme_name = names[category-1]
         word = for_word(category)  # we get the word to be guessed
         word_letters = set(word)  # the letters in the word
@@ -135,21 +143,28 @@ def hangman():
         if not word_letters:  # means word_letters is empty (all letters have been guessed)
             print(f"Congratulations! You have guessed the word")
             print("Guessed word: ", " ".join(word))
+            wins += 1  # Increase win count
         else:
             print(f"You are out of attempts!")
             print("Correct word was: ", " ".join(word))
+            losses += 1  # Increase loss count
 
         # Prompt for another round with validation
         while True:
             play_again = input("Do you want to play another round? (yes/no): ").lower()
-            if play_again in ['yes', 'no']:  # incase the input is neither yes nor no
+            if play_again in ['yes', 'no']:  # in case the input is neither yes nor no
                 break
             else:
                 print("Invalid input! Please enter 'yes' or 'no'.")
 
-        if play_again == 'no':  # incase input is no
+        if play_again == 'no':  # in case input is no
             break
 
+    # Display final score
+    clear_screen()  # Clear screen before showing final score
+    print(YELLOW + "\t   ☺ FINAL SCORE ☺\n" + RESET)
+    print(f"Wins: {wins}")
+    print(f"Losses: {losses}")
     print("Thank you for playing Hangman! Good bye")
 
 clear_screen()  # Clear the screen at the start of every round
