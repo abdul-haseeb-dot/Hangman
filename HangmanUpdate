@@ -11,9 +11,34 @@ def clear_screen():
     os.system('cls' if os.name == 'nt' else 'clear')
 
 def hangman():
+    while True:
+        clear_screen()  # Clear the screen at the start of every round
+        print(YELLOW + "\t   ☺ WELCOME TO HANGMAN ☺\n" + RESET)
+        choose = input("Would you like to choose a 'category' or play 'random'? ").lower()
 
-    stages = [
-        """
+        while choose != "category" and choose != "random":  # Ensure valid input
+            choose = input("Invalid Input! Write 'category' or 'random': ").lower()
+
+        numbers = [1, 2, 3, 4, 5, 6, 7] 
+
+        if choose == "category":  # If they want to select a category themselves
+            print("""1: Fruits
+2: Countries
+3: Cities of Pakistan
+4: Movies
+5: Animals
+6: Space
+7: Musical Instruments""")
+            category=int(input("Enter number of category you'd like to play: "))
+        else:
+            category = random.choice(numbers)  #if they want to play randomly
+
+        while category < 1 or category > 7:
+            print("Invalid category!")
+            category = int(input("Enter number of category you'd like to play: "))
+
+        stages = [
+            """
                    --------
                    |      |
                    |   
@@ -22,7 +47,7 @@ def hangman():
                    |      
                    |
                 =======    """,
-        """       
+            """       
                    --------
                    |      |
                    |      O
@@ -31,7 +56,7 @@ def hangman():
                    |     
                    |
                 =======""",
-        """
+            """
                    --------
                    |      |
                    |      O
@@ -40,7 +65,7 @@ def hangman():
                    |     
                    |
                 =======""",
-        """
+            """
                    --------
                    |      |
                    |      O
@@ -49,25 +74,41 @@ def hangman():
                    |     / \\
                    |
                 ======= """
-    ]
+        ]
 
-    def for_word():
-        fruits = ["apple", "banana", "mango", "orange", "grape", "kiwi","grapefruit", "peach", "date", "blueberry", "apricot","blackberry", "pineapple", "lychee", "pear"]
-        element = random.choice(fruits)
-        return element  # extracting a random element from the list
+        def for_word(cat):
+            fruits = ["apple", "banana", "mango", "orange", "grape", "kiwi", "grapefruit", "peach", "date", "blueberry", "apricot", "blackberry", "pineapple", "lychee", "pear"]
+            countries = ["pakistan", "india", "bangladesh", "palestine", "china", "iran", "afghanistan", "north korea",
+                        "south korea", "japan", "malaysia", "hong kong", "sri lanka", "czechia", "libya"]
+            cities = ["karachi", "lahore", "islamabad", "quetta", "faisalabad", "rawalpindi", "kashmir", "peshawar"]
+            movies = ["the avengers", "shrek", "lorax", "toy story", "inside out", "the conjuring", "insidious", "frozen",
+                    "murder mystery", "sherlock holmes", "spiderman", "maze runner", "moana", "coco", "cruella", "cars"]
+            animals = ["cat", "dog", "goat", "gorilla", "hyena", "lion", "tiger", "sheep", "giraffe", "polar bear", "panda",
+                    "llama", "cheetah", "leopard"]
+            space = ["earth", "mercury", "venus", "mars", "jupiter", "saturn", "uranus", "neptune", "pluto", "moon",
+                    "meteoroid", "asteroid", "satellite", "astronaut", "comet", "black hole", "big bang", "planet",
+                    "galaxy", "milky way", "telescope"]
+            instruments = ["guitar", "piano", "mandolin", "violin", "saxophone", "flute", "accordion", "cello", "ukulele",
+                        "trumpet", "sitar", "drum", "harp", "harmonica"]
+            themes = [fruits, countries, cities, movies, animals, space, instruments]
+            playing_theme = themes[cat-1]
+            element = random.choice(playing_theme)
+            return element  # extracting a random element from the list
 
-    while True:
-        clear_screen()  # Clear the screen at the start of every round
-        print(YELLOW + "\t   ☺ WELCOME TO HANGMAN ☺\n\n" + RESET)
         attempts = 3
         i = 0
-        word = for_word()  # we get the word to be guessed
+        names = ["fruits", "countries", "Cities of Pakistan", "movies", "animals", "space", "musical instruments"]
+        theme_name = names[category-1]
+        word = for_word(category)  # we get the word to be guessed
         word_letters = set(word)  # the letters in the word
-        guessed_letters = set()  # the letters guessed by players
+        guessed_letters = set(" ")  # the letters guessed by players
 
+        if " " in word:  # for words that contain a space between the words
+            word_letters.remove(" ")
+        print(f"\nCategory: {theme_name}\n")
         while attempts > 0 and word_letters:  # loop works while we have attempts left and there are letters to guess
             display = [letter if letter in guessed_letters else "___" for letter in word]
-            print("Current Word: ", " ".join(display))  # displays the word with blanks and guessed letters
+            print("\nCurrent Word: ", " ".join(display))  # displays the word with blanks and guessed letters
 
             guess = input("Guess a Letter: ").lower()  # inputs guesses
 
@@ -87,9 +128,9 @@ def hangman():
                     attempts -= 1
                     i += 1
                     print(f"Wrong guess! '{guess}' is not in the word")  # in case of wrong letter
-                    print(f"Attempts left: {attempts}")
+                    print(f"Incorrect guesses left: {attempts}")
 
-                print(YELLOW + stages[i] + RESET) #shows the man hanging
+                print(YELLOW + stages[min(i, 3)] + RESET)  # shows the man hanging
 
         if not word_letters:  # means word_letters is empty (all letters have been guessed)
             print(f"Congratulations! You have guessed the word")
@@ -101,14 +142,15 @@ def hangman():
         # Prompt for another round with validation
         while True:
             play_again = input("Do you want to play another round? (yes/no): ").lower()
-            if play_again in ['yes', 'no']: #incase the input is neither yes nor no
+            if play_again in ['yes', 'no']:  # incase the input is neither yes nor no
                 break
             else:
                 print("Invalid input! Please enter 'yes' or 'no'.")
 
-        if play_again == 'no': #incase input is no
+        if play_again == 'no':  # incase input is no
             break
 
     print("Thank you for playing Hangman! Good bye")
 
-hangman() #plays the actual game everything before was defining the function
+clear_screen()  # Clear the screen at the start of every round
+hangman()  # plays the actual game everything before was defining the function
