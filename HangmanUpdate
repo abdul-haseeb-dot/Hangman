@@ -52,17 +52,13 @@ def hangman():
     ]
 
     def for_word():
-        fruits = [
-            "apple", "banana", "mango", "orange", "grape", "kiwi",
-            "grapefruit", "peach", "date", "blueberry", "apricot",
-            "blackberry", "pineapple", "lychee", "pear"
-        ]
+        fruits = ["apple", "banana", "mango", "orange", "grape", "kiwi","grapefruit", "peach", "date", "blueberry", "apricot","blackberry", "pineapple", "lychee", "pear"]
         element = random.choice(fruits)
         return element  # extracting a random element from the list
 
     while True:
         clear_screen()  # Clear the screen at the start of every round
-        print(YELLOW + "\t\t☺ WELCOME TO HANGMAN ☺\n\n" + RESET)
+        print(YELLOW + "\t   ☺ WELCOME TO HANGMAN ☺\n\n" + RESET)
         attempts = 3
         i = 0
         word = for_word()  # we get the word to be guessed
@@ -93,7 +89,7 @@ def hangman():
                     print(f"Wrong guess! '{guess}' is not in the word")  # in case of wrong letter
                     print(f"Attempts left: {attempts}")
 
-                print(YELLOW + stages[i] + RESET)
+                print(YELLOW + stages[i] + RESET) #shows the man hanging
 
         if not word_letters:  # means word_letters is empty (all letters have been guessed)
             print(f"Congratulations! You have guessed the word")
@@ -105,14 +101,14 @@ def hangman():
         # Prompt for another round with validation
         while True:
             play_again = input("Do you want to play another round? (yes/no): ").lower()
-            if play_again in ['yes', 'no']:
+            if play_again in ['yes', 'no']: #incase the input is neither yes nor no
                 break
             else:
                 print("Invalid input! Please enter 'yes' or 'no'.")
 
-        if play_again == 'no':
+        if play_again == 'no': #incase input is no
             break
 
     print("Thank you for playing Hangman! Good bye")
 
-hangman()
+hangman() #plays the actual game everything before was defining the function
