@@ -138,7 +138,7 @@ def hangman():
                     print(f"Wrong guess! '{guess}' is not in the word")  # in case of wrong letter
                     print(f"Incorrect guesses left: {attempts}")
 
-                print(YELLOW + stages[min(i, 3)] + RESET)  # shows the man hanging
+                print(YELLOW + stages[i] + RESET)  # shows the man hanging
 
         if not word_letters:  # means word_letters is empty (all letters have been guessed)
             print(f"Congratulations! You have guessed the word")
