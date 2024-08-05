@@ -21,7 +21,8 @@ def hangman():
         choose = input("Would you like to choose a 'category' or play 'random'? ").lower()
 
         while choose != "category" and choose != "random":  # Ensure valid input
-            choose = input("Invalid Input! Write 'category' or 'random': ").lower()
+            print(RED + "Invalid Input!" + RESET)
+            choose = input("Write 'category' or 'random': ").lower()
 
         numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9] 
 
@@ -35,13 +36,21 @@ def hangman():
 7: Musical Instruments
 8: Sports
 9: Languages of the World""")
-            category = int(input("Enter number of category you'd like to play: "))
+            category = input("Enter number of category you'd like to play: ")
+            while not category.isdigit(): #incase input is not an int number
+                print(RED + "Invalid Input! Please enter a number" + RESET)
+                category = input("Enter number of category you'd like to play: ")
+            category = int(category) #the inputted submitted was string so we converted it to int
         else:
             category = random.choice(numbers)  # If they want to play randomly
 
-        while category < 1 or category > 9:
-            print("Invalid category!")
-            category = int(input("Enter number of category you'd like to play: "))
+        while category < 1 or category > 9: #in case input number is not from given categories
+            print(RED + "Invalid Category!" + RESET)
+            category = input("Enter number of category you'd like to play: ")
+            while not category.isdigit():
+                print(RED + "Invalid Input! Please enter a number" + RESET)
+                category = input("Enter number of category you'd like to play: ")
+            category = int(category) #the inputted submitted was string so we converted it to int
 
         stages = [
             """
@@ -121,9 +130,9 @@ def hangman():
             guess = input("Guess a Letter: ").lower()  # inputs guesses
 
             if len(guess) != 1:  # if more than one letter is input
-                print("Please enter a single letter! Try again")
+                print(RED + "Please enter a single letter! Try again" + RESET)
             elif not guess.isalpha():  # if something except a letter is input
-                print("Please enter a letter! Try again")
+                print(RED + "Please enter a letter! Try again" + RESET)
             else:
                 if guess in guessed_letters:
                     print(f"You have already guessed '{guess}'! Try something else")  # in case a letter is repeated
@@ -155,7 +164,7 @@ def hangman():
             if play_again in ['yes', 'no']:  # in case the input is neither yes nor no
                 break
             else:
-                print("Invalid input! Please enter 'yes' or 'no'.")
+                print(RED + "Invalid Input! Please enter 'yes' or 'no'." + RESET)
 
         if play_again == 'no':  # in case input is no
             break
