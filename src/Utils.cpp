@@ -1,6 +1,5 @@
 #include "Utils.hpp"
 #include "Constants.hpp"
-#include<iostream>
 #include<fstream>
 #include<sstream>
 #include<algorithm>
@@ -12,11 +11,6 @@ using namespace std;
 void loadCategoryWords(const char* categoryName,vector<string>& words,const string& filePath)
 {
     ifstream file(filePath);
-    if(!file.is_open())
-    {
-        cout<<"Failed to open!"<<endl;
-        return;
-    }
 
     string line;
     getline(file,line);
